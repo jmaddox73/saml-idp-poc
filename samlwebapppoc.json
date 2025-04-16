@@ -1,0 +1,573 @@
+{
+    "exports": [
+        {
+            "path": "tsasm:///authproviders/90ddf0b5-7231-4c4a-b385-a8106e6b2c9e",
+            "data": {
+                "user_provider_id": "local-user-provider",
+                "method": "password",
+                "config_id": "90ddf0b5-7231-4c4a-b385-a8106e6b2c9e",
+                "include_provider_response": false,
+                "name": "password"
+            },
+            "category": "authprovider",
+            "type": "dependency",
+            "constraints": [
+                {
+                    "server_version": "8.1.3",
+                    "type": "server_version"
+                }
+            ],
+            "dependencies": []
+        },
+        {
+            "path": "tsasm:///applications/samlwebapppoc",
+            "data": {
+                "token_config": {
+                    "token_headers": {},
+                    "expiry": {
+                        "act": 1800,
+                        "reg": 1800,
+                        "auth": 1800,
+                        "cfg": 1800,
+                        "pld": 1800
+                    },
+                    "secret": {
+                        "secret": "******"
+                    },
+                    "type": "hmac"
+                },
+                "user_association_config": {
+                    "strategy": {
+                        "type": "user_id"
+                    }
+                },
+                "allow_implicit_device_registration": true,
+                "authenticators": [
+                    {
+                        "method": "mobile_approve",
+                        "level": 3,
+                        "provider_config": {
+                            "method": "mobile_approve",
+                            "config_id": "web"
+                        },
+                        "category": "5742",
+                        "enabled": true
+                    },
+                    {
+                        "method": "password",
+                        "level": 0,
+                        "provider_config_id": "90ddf0b5-7231-4c4a-b385-a8106e6b2c9e",
+                        "category": "9814",
+                        "enabled": true
+                    },
+                    {
+                        "method": "fido2",
+                        "level": 0,
+                        "provider_config_id": "5b1d96a3-030d-4e43-ada4-c9d9a29c9ead",
+                        "category": "5372",
+                        "enabled": true
+                    }
+                ],
+                "policies": [
+                    {
+                        "policy_id": "default_config",
+                        "versions": [
+                            {
+                                "schema_version": 2,
+                                "workflow": {
+                                    "escapes": {
+                                        "escapes": []
+                                    },
+                                    "strings": [],
+                                    "action": {
+                                        "excluded": [],
+                                        "metadata": {
+                                            "type": "configuration"
+                                        },
+                                        "options": [],
+                                        "type": "configuration",
+                                        "included": []
+                                    },
+                                    "type": "action"
+                                },
+                                "version_id": "default_version",
+                                "state": "disabled",
+                                "desc": "Default Version"
+                            }
+                        ],
+                        "type": "config",
+                        "desc": "Authentication options screen"
+                    },
+                    {
+                        "policy_id": "default_reg",
+                        "versions": [
+                            {
+                                "schema_version": 2,
+                                "workflow": {
+                                    "escapes": {
+                                        "escapes": []
+                                    },
+                                    "strings": [],
+                                    "action": {
+                                        "metadata": {
+                                            "type": "auth_pass"
+                                        },
+                                        "type": "auth_pass"
+                                    },
+                                    "type": "action"
+                                },
+                                "version_id": "default_version",
+                                "state": "disabled",
+                                "desc": "Default Version"
+                            }
+                        ],
+                        "type": "reg",
+                        "desc": "Before registering a new authenticator"
+                    },
+                    {
+                        "policy_id": "default_unreg",
+                        "versions": [
+                            {
+                                "schema_version": 2,
+                                "workflow": {
+                                    "escapes": {
+                                        "escapes": []
+                                    },
+                                    "strings": [],
+                                    "action": {
+                                        "metadata": {
+                                            "type": "auth_pass"
+                                        },
+                                        "type": "auth_pass"
+                                    },
+                                    "type": "action"
+                                },
+                                "version_id": "default_version",
+                                "state": "disabled",
+                                "desc": "Default Version"
+                            }
+                        ],
+                        "type": "unreg",
+                        "desc": "Before deregistering an authenticator"
+                    },
+                    {
+                        "policy_id": "default_bind",
+                        "versions": [
+                            {
+                                "schema_version": 2,
+                                "workflow": {
+                                    "escapes": {
+                                        "escapes": []
+                                    },
+                                    "strings": [],
+                                    "action": {
+                                        "metadata": {
+                                            "type": "auth_pass"
+                                        },
+                                        "type": "auth_pass"
+                                    },
+                                    "type": "action"
+                                },
+                                "version_id": "default_version",
+                                "state": "disabled",
+                                "desc": "Default Version"
+                            }
+                        ],
+                        "type": "bind",
+                        "desc": "New device registration"
+                    },
+                    {
+                        "policy_id": "default_logout",
+                        "versions": [
+                            {
+                                "schema_version": 2,
+                                "filter_criteria": {
+                                    "type": "expression",
+                                    "value": {
+                                        "type": "expression",
+                                        "value": "1"
+                                    }
+                                },
+                                "workflow": {
+                                    "debug_id": "546873ab-dd0d-4250-a02d-a89aff96179c",
+                                    "escapes": {
+                                        "escapes": []
+                                    },
+                                    "strings": [],
+                                    "action": {
+                                        "metadata": {
+                                            "type": "auth_pass"
+                                        },
+                                        "type": "auth_pass"
+                                    },
+                                    "type": "action"
+                                },
+                                "version_id": "default_version",
+                                "state": "version",
+                                "desc": "Default Version"
+                            }
+                        ],
+                        "type": "logout",
+                        "desc": "At logout"
+                    },
+                    {
+                        "policy_id": "default_display_devices",
+                        "versions": [
+                            {
+                                "schema_version": 2,
+                                "workflow": {
+                                    "escapes": {
+                                        "escapes": []
+                                    },
+                                    "strings": [],
+                                    "action": {
+                                        "metadata": {
+                                            "type": "auth_pass"
+                                        },
+                                        "type": "auth_pass"
+                                    },
+                                    "type": "action"
+                                },
+                                "version_id": "default_version",
+                                "state": "disabled",
+                                "desc": "Default Version"
+                            }
+                        ],
+                        "type": "displayDevices",
+                        "desc": "Before displaying the list of all devices"
+                    },
+                    {
+                        "policy_id": "default_rename_device",
+                        "versions": [
+                            {
+                                "schema_version": 2,
+                                "workflow": {
+                                    "escapes": {
+                                        "escapes": []
+                                    },
+                                    "strings": [],
+                                    "action": {
+                                        "metadata": {
+                                            "type": "auth_pass"
+                                        },
+                                        "type": "auth_pass"
+                                    },
+                                    "type": "action"
+                                },
+                                "version_id": "default_version",
+                                "state": "disabled",
+                                "desc": "Default Version"
+                            }
+                        ],
+                        "type": "renameDevice",
+                        "desc": "Before renaming a device"
+                    },
+                    {
+                        "policy_id": "default_remove_device",
+                        "versions": [
+                            {
+                                "schema_version": 2,
+                                "workflow": {
+                                    "escapes": {
+                                        "escapes": []
+                                    },
+                                    "strings": [],
+                                    "action": {
+                                        "metadata": {
+                                            "type": "auth_pass"
+                                        },
+                                        "type": "auth_pass"
+                                    },
+                                    "type": "action"
+                                },
+                                "version_id": "default_version",
+                                "state": "disabled",
+                                "desc": "Default Version"
+                            }
+                        ],
+                        "type": "removeDevice",
+                        "desc": "Before removing a device"
+                    },
+                    {
+                        "policy_id": "samlweb",
+                        "versions": [
+                            {
+                                "schema_version": 2,
+                                "filter_criteria": {
+                                    "type": "users",
+                                    "value": [
+                                        "user10009"
+                                    ]
+                                },
+                                "workflow": {
+                                    "debug_id": "b074d069-c8b5-434b-9736-1e1d47a15576",
+                                    "escapes": {
+                                        "escapes": []
+                                    },
+                                    "strings": [],
+                                    "action": {
+                                        "variables": [
+                                            {
+                                                "name": "result",
+                                                "value": {
+                                                    "ns": "crypto",
+                                                    "function": "generateSamlToken",
+                                                    "argExpressions": [
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "\"IAMShowcase\""
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "\"transmit\""
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "{ should_sign_assertions: false, should_sign_response: false }"
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "{}"
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "{\"user_id\":@policy.user().id}"
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "900"
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "\"\""
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "{ session_index : @policy.session().id, authn_context : { class_ref : \"class_ref\" } }"
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "{ in_response_to: \"in_response_to\", method : \"method\", recipient : \"recipient\" }"
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "{ not_before: 1000000, not_after : 10000, audience_uri : \"audience_uri\" }"
+                                                        },
+                                                        {
+                                                            "type": "expression",
+                                                            "value": "{ attributes : [] }"
+                                                        }
+                                                    ],
+                                                    "type": "fnInvoke"
+                                                }
+                                            }
+                                        ],
+                                        "metadata": {
+                                            "function_name": "crypto:generateSamlToken",
+                                            "type": "function_invoke"
+                                        },
+                                        "type": "set_variables"
+                                    },
+                                    "type": "action",
+                                    "child": {
+                                        "debug_id": "e6dacd0a-6758-40a5-bcef-786e8e09cb90",
+                                        "escapes": {
+                                            "escapes": []
+                                        },
+                                        "strings": [],
+                                        "action": {
+                                            "metadata": {
+                                                "type": "set_cookies"
+                                            },
+                                            "type": "set_cookies",
+                                            "cookies": [
+                                                {
+                                                    "max_age": 9001,
+                                                    "path": {
+                                                        "type": "expression",
+                                                        "value": "\"/\""
+                                                    },
+                                                    "same_site": "lax",
+                                                    "http_only": false,
+                                                    "domain": {
+                                                        "type": "expression",
+                                                        "value": "\"onlinebanking.test.com\""
+                                                    },
+                                                    "name": {
+                                                        "type": "expression",
+                                                        "value": "\"SAMLToken\""
+                                                    },
+                                                    "secure": true,
+                                                    "value": {
+                                                        "type": "expression",
+                                                        "value": "result"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        "type": "action",
+                                        "child": {
+                                            "debug_id": "1e5393a8-68c7-4928-931d-470e9664e967",
+                                            "escapes": {
+                                                "escapes": []
+                                            },
+                                            "strings": [],
+                                            "action": {
+                                                "metadata": {
+                                                    "type": "auth_pass"
+                                                },
+                                                "type": "auth_pass"
+                                            },
+                                            "type": "action"
+                                        }
+                                    }
+                                },
+                                "version_id": "default_version",
+                                "state": "version",
+                                "desc": "default_version"
+                            }
+                        ],
+                        "type": "auth",
+                        "config": {
+                            "token_create": true,
+                            "session_validate": false,
+                            "session_create": true,
+                            "token_include_request_params": true,
+                            "tip_config": null
+                        },
+                        "desc": "samlweb"
+                    }
+                ],
+                "scorer_id": "00000000-0000-0000-0000-000000000000",
+                "type": "web",
+                "version": 0,
+                "extensions": [],
+                "procedures": [],
+                "device_groups": [],
+                "name": "samlwebapppoc",
+                "crypto_session_config": {
+                    "mode": "off"
+                },
+                "reporting_config": {
+                    "policy_eval_reporting": "all"
+                },
+                "id": "samlwebapppoc",
+                "categories": [
+                    {
+                        "name": "Something you know",
+                        "id": "9814"
+                    },
+                    {
+                        "name": "Something you are",
+                        "id": "5372"
+                    },
+                    {
+                        "name": "Something you have",
+                        "id": "5742"
+                    }
+                ],
+                "providers": {
+                    "user": "local-user-provider"
+                },
+                "allowed_origins": [
+                    {
+                        "type": "expression",
+                        "value": "`https://127.0.0.1:5501`"
+                    },
+                    {
+                        "type": "expression",
+                        "value": "`https://myfidoapp.com:5501`"
+                    },
+                    {
+                        "type": "expression",
+                        "value": "`https://onlinebanking.test.com:3443`"
+                    }
+                ]
+            },
+            "category": "application",
+            "type": "dependency",
+            "constraints": [
+                {
+                    "server_version": "8.1.3",
+                    "type": "server_version"
+                }
+            ],
+            "dependencies": []
+        },
+        {
+            "path": "tsasm:///providers/local-user-provider",
+            "data": {
+                "provider_type": "user-local",
+                "name": "Test Users",
+                "provider_id": "local-user-provider",
+                "enabled": true
+            },
+            "category": "provider",
+            "type": "dependency",
+            "constraints": [
+                {
+                    "server_version": "8.1.3",
+                    "type": "server_version"
+                }
+            ],
+            "dependencies": []
+        },
+        {
+            "path": "tsasm:///authproviders/5b1d96a3-030d-4e43-ada4-c9d9a29c9ead",
+            "data": {
+                "credentials_create_timeout": 60000,
+                "method": "fido2",
+                "require_resident_key": false,
+                "relying_party_name": "myfidoapp",
+                "user_verification_requirement": "preferred",
+                "credential_display_name": {
+                    "type": "user_id"
+                },
+                "relying_party_id": "myfidoapp.com",
+                "use_ec_key_extension": false,
+                "credentials_request_timeout": 60000,
+                "attestation_conveyance_preference": "none",
+                "validate_signature_counter": false,
+                "config_id": "5b1d96a3-030d-4e43-ada4-c9d9a29c9ead",
+                "name": "fido",
+                "allow_unknown_auth_attachment": false,
+                "allowed_origins": []
+            },
+            "category": "authprovider",
+            "type": "dependency",
+            "constraints": [
+                {
+                    "server_version": "8.1.3",
+                    "type": "server_version"
+                }
+            ],
+            "dependencies": []
+        },
+        {
+            "path": "tsasm:///scorers/00000000-0000-0000-0000-000000000000",
+            "data": {
+                "mfa_rules": [],
+                "authenticator_rules": [],
+                "name": "Default",
+                "default_authenticator_score": 0,
+                "description": "This is a default Authenticators Scoring Policy; Please create your own and replace in applications",
+                "id": "00000000-0000-0000-0000-000000000000",
+                "initial_score": 0,
+                "modifiers": [],
+                "strategy": {
+                    "type": "sum"
+                },
+                "type": "authenticators"
+            },
+            "category": "scorer",
+            "type": "dependency",
+            "constraints": [
+                {
+                    "server_version": "8.1.3",
+                    "type": "server_version"
+                }
+            ],
+            "dependencies": []
+        }
+    ]
+}
