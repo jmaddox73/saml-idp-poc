@@ -10,8 +10,9 @@ This sample demonstrates a **SAML IdP-Initiated login flow** using the **Transmi
 - Transmit CIAM environment with:
   - Application ID configured (e.g., `web`)
   - Authentication policy (e.g., `samlweb`)
-  - SAML response policy using `generateSamlToken(...)` and `samlResponse.send(...)`
+  - SAML response policy using `@crypto.generateSamlToken(...)` and `Set an HTTP Cookie`
 - Valid TLS certificate for your domain (e.g., `onlinebanking.test.com`)
+  - Certs and keys are provided, but you can generate your own in the `ssl` diretory and import the CA/Root to your local machine to avoid errors.
 - Host entries or DNS mapped to `127.0.0.1` for local testing
 
 ---
@@ -39,6 +40,10 @@ This sample demonstrates a **SAML IdP-Initiated login flow** using the **Transmi
 
 ```bash
 npm install
+npm install express
+npm install path
+npm install https
+npm install fs
 ```
 
 ### 2. 🛡️ Start the local HTTPS server
