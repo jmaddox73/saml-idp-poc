@@ -12,7 +12,7 @@ This sample demonstrates a **SAML IdP-Initiated login flow** using the **Transmi
   - Authentication policy (e.g., `samlweb`)
   - SAML response policy using `@crypto.generateSamlToken(...)` and `Set an HTTP Cookie`
 - Valid TLS certificate for your domain (e.g., `onlinebanking.test.com`)
-  - Certs and keys are provided, but you can generate your own in the `ssl` diretory and import the CA/Root to your local machine to avoid errors.
+  - Certs and keys are provided in the `ssl` directory, or you can generate your own and import the CA/Root into your system for local trust
 - Host entries or DNS mapped to `127.0.0.1` for local testing
 
 ---
@@ -20,16 +20,19 @@ This sample demonstrates a **SAML IdP-Initiated login flow** using the **Transmi
 ## 🧱 Project Structure
 
 ```
-/login-portal
-├── public/
-│   ├── index.html            # Landing page with login UI
-│   ├── sdk/                  # Transmit Web SDK (ES6 version)
-│   └── script.js             # SDK initialization and SAML POST logic
-├── server.js                 # Express server with HTTPS config
-├── certs/
-│   ├── server.key            # Private key for TLS
-│   └── server.crt            # Certificate with SANs for your domain
-└── README.md                 # This file
+/saml-idp-poc
+├── .git/                      # Git repository
+├── .gitignore
+├── README.md                  # This file
+├── samlwebapppoc.json         # Sample configuration or metadata file
+└── login-portal/
+    ├── public/                # Frontend assets (HTML, JS, SDK)
+    │   └── sdk/               # Transmit CIAM Web SDK
+    │   └── index.html         # Main login page
+    │   └── script.js          # Login logic and SAML POST
+    ├── server.js              # HTTPS Node.js server
+    ├── ssl/                   # TLS certs (server.crt, server.key)
+    └── views/                 # Optional HTML templates (e.g., using Express)
 ```
 
 ---
@@ -38,12 +41,16 @@ This sample demonstrates a **SAML IdP-Initiated login flow** using the **Transmi
 
 ### 1. 🧰 Install dependencies
 
+Navigate to the root or `login-portal/` directory and run:
+
 ```bash
+cd login-portal
 npm install
-npm install express
-npm install path
-npm install https
-npm install fs
+```
+
+You may need to manually install:
+```bash
+npm install express path https fs
 ```
 
 ### 2. 🛡️ Start the local HTTPS server
@@ -52,11 +59,11 @@ npm install fs
 node server.js
 ```
 
-Ensure `server.js` is configured to serve `https://onlinebanking.test.com:3443` using your TLS certs.
+Ensure `server.js` is configured to serve `https://onlinebanking.test.com:3443` using certs in the `ssl/` directory.
 
 ### 3. 🧪 Test the app
 
-Navigate to:
+Visit:
 ```
 https://onlinebanking.test.com:3443
 ```
@@ -75,64 +82,52 @@ You should see a login page with a **Login** button.
    - Authenticates the user
    - Generates a SAML assertion using `generateSamlToken(...)`
    - Stores the token in a `SAMLToken` cookie
-   - Sends a response to your frontend
-4. Your JavaScript:
-   - Extracts the `SAMLToken` from the cookie
-   - Builds and auto-submits a form to the SP's ACS endpoint (`https://sptest.iamshowcase.com/acs`)
-5. The SP processes the assertion and logs the user in
-
----
-
-## 🔧 Sample Transmit Policy Snippet
-
-```ts
-const samlToken = generateSamlToken(...);
-
-response.setCookie("SAMLToken", samlToken, {
-  path: "/",
-  secure: true,
-  sameSite: "Strict",
-  maxAge: 900
-});
-
-samlResponse.send({
-  acs_url: "https://sptest.iamshowcase.com/acs",
-  saml_response: samlToken,
-  relay_state: ""
-});
-```
+4. Your frontend JavaScript:
+   - Reads the `SAMLToken` from the cookie
+   - Submits the token to the SP’s ACS endpoint (`https://sptest.iamshowcase.com/acs`)
+5. The SP verifies the assertion and establishes the user session
 
 ---
 
 ## 🍪 Cookie Notes
 
 - Cookie name: `SAMLToken`
-- Must be readable by JS (`HttpOnly` must NOT be set)
-- Should be scoped to `/`, marked as `Secure`, and `SameSite=Strict`
+- Must **not** be `HttpOnly` so frontend JavaScript can access it
+- Recommended settings:
+  - `path=/`
+  - `Secure`
+  - `SameSite=Strict`
+  - `Max-Age` set appropriately (e.g., 15 minutes)
 
 ---
 
 ## 🧠 Debugging Tips
 
-- Use `document.cookie` to verify the presence of `SAMLToken`
-- Check browser dev tools → Application → Cookies → `onlinebanking.test.com`
-- Use `curl -v https://onlinebanking.test.com:8813` to test TLS
-- Use `keytool -list -v -keystore server.jks` to inspect keystore alias
+- Use `document.cookie` in DevTools Console to check for the token
+- In Chrome: DevTools → Application → Cookies → select `onlinebanking.test.com`
+- Test server TLS with:
+```bash
+curl -v https://onlinebanking.test.com:8813
+```
+- Check Java keystore with:
+```bash
+keytool -list -v -keystore server.jks -storepass [your-password]
+```
 
 ---
 
 ## ✅ Credits
 
 - Built with [Transmit CIAM SDK](https://developer.transmitsecurity.io/)
-- Sample SP ACS: [IAMShowcase](https://sptest.iamshowcase.com/instructions#start)
+- ACS Endpoint provided by: [IAMShowcase](https://sptest.iamshowcase.com/instructions#start)
 
 ---
 
 ## 🧹 Optional Enhancements
 
 - Add support for RelayState forwarding
-- Display loading screen during token submission
-- Log out of Transmit automatically after POST
-- Handle multiple SP destinations
+- Handle SAML errors or expired assertions gracefully
+- Auto logout after SAML handoff
+- Multi-SP support (ACS routing)
 
 ---
